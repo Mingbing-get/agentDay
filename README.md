@@ -275,3 +275,107 @@ pnpm generate:daily --date 2026-03-26 --topic "AI meeting copilot"
 docker compose up -d --build
 docker compose exec app pnpm generate:daily --date 2026-03-26 --topic "AI meeting copilot"
 ```
+
+## GitHub Actions 自动部署
+
+仓库已新增工作流：
+
+- `.github/workflows/deploy.yml`
+
+行为：
+
+1. 当代码 push 到 `main` 分支时自动触发
+2. 先执行 CI：
+   - `pnpm install --frozen-lockfile`
+   - `pnpm test`
+   - `pnpm build`
+3. CI 成功后再部署到你的服务器
+4. 部署方式是：
+   - 通过 SSH 连接服务器
+   - 把项目运行所需文件同步到目标目录
+   - 在服务器执行 `docker compose up -d --build`
+
+### 服务器要求
+
+目标服务器必须已经安装：
+
+- `docker`
+- `docker compose`
+
+并且要能通过 SSH 登录。
+
+### 需要在 GitHub 仓库里配置的 Secrets
+
+在仓库 `Settings -> Secrets and variables -> Actions` 里添加：
+
+- `DEPLOY_HOST`
+  - 服务器 IP 或域名
+- `DEPLOY_USER`
+  - SSH 登录用户名
+- `DEPLOY_SSH_KEY`
+  - 私钥内容
+- `DEPLOY_PORT`
+  - SSH 端口，通常是 `22`
+- `DEPLOY_PATH`
+  - 服务器上的部署目录，例如 `/opt/agent-day`
+- `APP_PORT`
+  - 服务器上映射出的端口，例如 `3000`
+- `NEXT_PUBLIC_SITE_URL`
+  - 线上站点地址，例如 `https://agentdaily.example`
+
+### 推荐的服务器初始化步骤
+
+第一次部署前，在服务器上执行一次：
+
+```bash
+mkdir -p /opt/agent-day
+```
+
+如果你要用 `80/443` 对外提供服务，建议再配一层 Nginx 或 Caddy 反向代理，把请求转发到容器的 `APP_PORT`。
+
+### 自动部署流程
+
+当你执行：
+
+```bash
+git push origin main
+```
+
+GitHub Actions 会自动：
+
+1. 跑测试和构建
+2. 通过 SSH 把代码同步到 `DEPLOY_PATH`
+3. 在服务器执行：
+
+```bash
+sh scripts/remote-deploy.sh
+```
+
+这个脚本会：
+
+- 创建 `generated/` 和 `prisma/` 持久化目录
+- 写入 `.env`
+- 执行 `docker compose up -d --build`
+
+### 部署后的常用操作
+
+在服务器上查看状态：
+
+```bash
+cd /opt/agent-day
+docker compose ps
+docker compose logs -f app
+```
+
+在服务器上手动生成新项目：
+
+```bash
+cd /opt/agent-day
+docker compose exec app pnpm generate:daily --date 2026-03-26 --topic "AI meeting copilot"
+```
+
+### 注意
+
+- 工作流不会同步 `prisma/dev.db` 和 `generated/` 的线上数据，它们由服务器本地持久化目录保留
+- `demo` 页面不会被搜索引擎索引，但 dossier 页面会被收录
+- 如果服务器 SSH 用户没有 Docker 权限，需要把该用户加入 Docker 组，或自行调整为 `sudo docker compose`
