@@ -300,7 +300,7 @@ docker compose exec app pnpm generate:daily --date 2026-03-26 --topic "AI meetin
 目标服务器必须已经安装：
 
 - `docker`
-- `docker compose`
+- `docker compose` 或 `docker-compose`
 
 并且要能通过 SSH 登录。
 
@@ -331,6 +331,19 @@ docker compose exec app pnpm generate:daily --date 2026-03-26 --topic "AI meetin
 mkdir -p /opt/agent-day
 ```
 
+如果部署目录在 `/opt` 这类受限路径下，还要把目录权限交给部署用户，例如：
+
+```bash
+sudo mkdir -p /opt/agent-day
+sudo chown -R <deploy-user>:<deploy-user> /opt/agent-day
+```
+
+如果你不想处理系统目录权限，直接把 `DEPLOY_PATH` 配成 SSH 用户自己的目录会更省事，例如：
+
+```bash
+/home/<deploy-user>/agent-day
+```
+
 如果你要用 `80/443` 对外提供服务，建议再配一层 Nginx 或 Caddy 反向代理，把请求转发到容器的 `APP_PORT`。
 
 ### 自动部署流程
@@ -355,7 +368,7 @@ sh scripts/remote-deploy.sh
 
 - 创建 `generated/` 和 `prisma/` 持久化目录
 - 写入 `.env`
-- 执行 `docker compose up -d --build`
+- 自动检测并执行 `docker compose up -d --build` 或 `docker-compose up -d --build`
 
 ### 部署后的常用操作
 

@@ -63,7 +63,15 @@ jobs:
           envs: DEPLOY_PATH
           script: |
             set -eu
-            mkdir -p "$DEPLOY_PATH/generated/projects" "$DEPLOY_PATH/prisma" "$DEPLOY_PATH/scripts" "$DEPLOY_PATH/src" "$DEPLOY_PATH/.github/workflows"
+            mkdir -p "$DEPLOY_PATH" || {
+              echo "Cannot create DEPLOY_PATH. Ensure the SSH user has write permission to $DEPLOY_PATH."
+              exit 1
+            }
+            touch "$DEPLOY_PATH/.deploy-write-test" || {
+              echo "DEPLOY_PATH is not writable by the SSH user. Fix ownership or choose a writable DEPLOY_PATH."
+              exit 1
+            }
+            rm -f "$DEPLOY_PATH/.deploy-write-test"
         env:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
 
