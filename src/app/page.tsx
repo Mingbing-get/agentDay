@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PrismaProjectRepository } from "@/lib/projects/prisma-repository";
 import { getHomeViewModel } from "@/lib/projects/service";
+import { buildHomeMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildHomeMetadata();
 
 function formatDate(date: string) {
   return new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {

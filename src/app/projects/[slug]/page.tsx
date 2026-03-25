@@ -1,11 +1,30 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 
 import { PrismaProjectRepository } from "@/lib/projects/prisma-repository";
 import { getProjectDossier } from "@/lib/projects/service";
+import { buildProjectPageMetadata, buildProjectStructuredData } from "@/lib/seo";
 
 const generatedRoot = process.cwd();
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await new PrismaProjectRepository().findProjectBySlug(slug);
+
+  if (!project) {
+    return {
+      title: "Project not found"
+    };
+  }
+
+  return buildProjectPageMetadata(project);
+}
 
 export default async function ProjectPage({
   params
@@ -16,10 +35,15 @@ export default async function ProjectPage({
 
   try {
     const dossier = await getProjectDossier(slug, new PrismaProjectRepository(), generatedRoot);
+    const structuredData = buildProjectStructuredData(dossier.project);
 
     return (
       <main className="page-shell">
         <div className="page-frame">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          />
           <header className="site-header">
             <div className="site-brand">
               <span className="site-brand__eyebrow">Project dossier</span>

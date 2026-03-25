@@ -1,11 +1,34 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { buildDemoViewModel } from "@/lib/generation/demo";
 import { PrismaProjectRepository } from "@/lib/projects/prisma-repository";
 import { getProjectDossier } from "@/lib/projects/service";
+import { buildDemoPageMetadata } from "@/lib/seo";
 
 const generatedRoot = process.cwd();
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await new PrismaProjectRepository().findProjectBySlug(slug);
+
+  if (!project) {
+    return {
+      title: "Project demo not found",
+      robots: {
+        index: false,
+        follow: false
+      }
+    };
+  }
+
+  return buildDemoPageMetadata(project);
+}
 
 export default async function ProjectDemoPage({
   params

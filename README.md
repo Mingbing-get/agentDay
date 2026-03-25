@@ -68,6 +68,14 @@ pnpm dev
 - 项目档案: `http://localhost:3000/projects/<slug>`
 - 项目 demo: `http://localhost:3000/projects/<slug>/demo`
 
+### 3. 配置站点域名
+
+为了让 canonical、Open Graph、Twitter Card、sitemap 和 robots 输出正确的线上地址，建议配置：
+
+```bash
+NEXT_PUBLIC_SITE_URL="https://your-domain.example"
+```
+
 ## 生成新项目
 
 基础命令：
