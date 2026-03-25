@@ -26,4 +26,4 @@ ENV DATABASE_URL="file:./dev.db"
 
 RUN mkdir -p /app/generated/projects /app/prisma
 
-CMD ["sh", "-c", "pnpm start -- --hostname 0.0.0.0 --port ${PORT}"]
+CMD ["sh", "-c", "pnpm exec next start -H 0.0.0.0 -p ${PORT}"]
