@@ -54,8 +54,24 @@ function mapRun(record: {
   };
 }
 
-function isMissingTableError(error: unknown) {
-  return error instanceof Error && /no such table/i.test(error.message);
+export function isMissingTableError(error: unknown) {
+  if (error instanceof Error && /no such table/i.test(error.message)) {
+    return true;
+  }
+
+  if (typeof error === "object" && error !== null) {
+    const candidate = error as { code?: unknown; message?: unknown };
+
+    if (candidate.code === "P2021") {
+      return true;
+    }
+
+    if (typeof candidate.message === "string" && /does not exist in the current database/i.test(candidate.message)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 export class PrismaProjectRepository implements ProjectRepository {
