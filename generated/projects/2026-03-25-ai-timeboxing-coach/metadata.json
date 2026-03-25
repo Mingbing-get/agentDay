@@ -1,0 +1,14 @@
+{
+  "date": "2026-03-25",
+  "slug": "2026-03-25-ai-timeboxing-coach",
+  "title": "AI Timeboxing Coach",
+  "summary": "AI Timeboxing Coach is a dashboard-style micro product generated for 2026-03-25, packaged with its own demo and AI dossier.",
+  "theme": "cobalt-signal",
+  "archetype": "dashboard",
+  "heroImage": null,
+  "demo": {
+    "headline": "AI Timeboxing Coach",
+    "subheadline": "A daily-generated dashboard concept focused on clarity, usefulness, and speed to launch.",
+    "accent": "#274690"
+  }
+}

@@ -1,0 +1,364 @@
+:root {
+  --bg: #f4efe4;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-strong: #fffdf8;
+  --ink: #171717;
+  --muted: #5f5a52;
+  --line: rgba(23, 23, 23, 0.12);
+  --accent: #b4492d;
+  --teal: #116466;
+  --blue: #274690;
+  --shadow: 0 24px 80px rgba(37, 28, 16, 0.12);
+  --display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --body: "Avenir Next", "Segoe UI", sans-serif;
+  --mono: "SFMono-Regular", "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background:
+    radial-gradient(circle at top left, rgba(180, 73, 45, 0.18), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(17, 100, 102, 0.18), transparent 28%),
+    var(--bg);
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 32px;
+}
+
+.page-frame {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.site-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site-brand__eyebrow,
+.meta-pill {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.site-brand__title {
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 0.94;
+  margin: 0;
+}
+
+.site-brand__summary {
+  max-width: 58ch;
+  color: var(--muted);
+  margin: 0;
+  font-size: 1rem;
+}
+
+.hero-grid,
+.archive-grid,
+.dossier-grid,
+.demo-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.hero-grid {
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+  align-items: stretch;
+}
+
+.panel,
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.hero-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -20% 40%;
+  height: 220px;
+  background: linear-gradient(135deg, rgba(180, 73, 45, 0.18), rgba(39, 70, 144, 0.06));
+  transform: rotate(-8deg);
+}
+
+.hero-card__title,
+.section-title,
+.dossier-title,
+.demo-title {
+  font-family: var(--display);
+}
+
+.hero-card__title {
+  font-size: clamp(2.2rem, 4vw, 4.4rem);
+  line-height: 0.96;
+  margin: 0;
+  max-width: 14ch;
+}
+
+.hero-card__summary {
+  position: relative;
+  z-index: 1;
+  max-width: 60ch;
+  color: var(--muted);
+  margin: 0;
+}
+
+.hero-actions,
+.header-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.button-primary,
+.button-secondary {
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.button-primary {
+  background: var(--ink);
+  color: white;
+}
+
+.button-secondary {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.button-primary:hover,
+.button-secondary:hover,
+.archive-card:hover {
+  transform: translateY(-2px);
+}
+
+.artifact-panel {
+  padding: 24px;
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.artifact-grid,
+.archive-grid,
+.stat-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.artifact-grid,
+.stat-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.artifact-chip,
+.stat-card,
+.archive-card,
+.section-card,
+.demo-card {
+  border-radius: 22px;
+  padding: 18px;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+}
+
+.artifact-chip strong,
+.stat-card strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.artifact-chip span,
+.stat-card span,
+.archive-card p,
+.section-card p,
+.demo-card p,
+.muted {
+  color: var(--muted);
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 40px 0 16px;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  margin: 0;
+}
+
+.archive-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.archive-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.archive-card h3,
+.section-card h3,
+.demo-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.empty-state {
+  padding: 36px;
+  border-radius: 28px;
+  text-align: center;
+}
+
+.dossier-grid {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+  align-items: start;
+}
+
+.dossier-sidebar,
+.dossier-main,
+.demo-shell {
+  padding: 28px;
+  border-radius: 28px;
+}
+
+.dossier-title,
+.demo-title {
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  line-height: 0.95;
+  margin: 10px 0 12px;
+}
+
+.section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.section-card pre,
+.section-card code {
+  font-family: var(--mono);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.section-card svg {
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  background: #f7f3ea;
+}
+
+.demo-shell {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 249, 239, 0.82));
+}
+
+.demo-grid {
+  grid-template-columns: 1.2fr 0.8fr;
+  margin-top: 24px;
+}
+
+.demo-hero {
+  padding: 28px;
+  border-radius: 28px;
+  color: white;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.demo-hero p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.demo-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.demo-pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 960px) {
+  .page-shell {
+    padding: 20px;
+  }
+
+  .hero-grid,
+  .archive-grid,
+  .dossier-grid,
+  .demo-grid,
+  .artifact-grid,
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header,
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
