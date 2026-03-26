@@ -1,6 +1,7 @@
 import { ensureDatabaseSchema } from "@/lib/db";
 import { PrismaProjectRepository } from "@/lib/projects/prisma-repository";
 import { generateDailyProject } from "@/lib/generation/service";
+import { getDefaultProjectDate } from "@/lib/time";
 
 function getFlagValue(flag: string) {
   const index = process.argv.indexOf(flag);
@@ -15,14 +16,10 @@ function hasFlag(flag: string) {
   return process.argv.includes(flag);
 }
 
-function formatDate(date: Date) {
-  return date.toISOString().slice(0, 10);
-}
-
 async function main() {
   await ensureDatabaseSchema();
 
-  const date = getFlagValue("--date") ?? formatDate(new Date());
+  const date = getFlagValue("--date") ?? getDefaultProjectDate(new Date());
   const topic = getFlagValue("--topic") ?? undefined;
   const force = hasFlag("--force");
   const result = await generateDailyProject({

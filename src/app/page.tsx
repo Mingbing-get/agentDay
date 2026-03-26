@@ -6,6 +6,7 @@ import { getHomeViewModel } from "@/lib/projects/service";
 import { buildHomeMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildHomeMetadata();
+export const dynamic = "force-dynamic";
 
 function formatDate(date: string) {
   return new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {
