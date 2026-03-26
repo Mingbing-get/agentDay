@@ -1,0 +1,10 @@
+flowchart LR
+    A["Local CLI Command"] --> B["Generator Service"]
+    B --> C["Artifact Files"]
+    B --> D["Project Index (SQLite)"]
+    D --> E["Homepage"]
+    C --> F["Project Dossier"]
+    D --> F
+    C --> G["Demo Route"]
+    classDef accent fill:#274690,color:#ffffff,stroke:#0f172a;
+    class B,F,G accent;

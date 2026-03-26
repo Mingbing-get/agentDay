@@ -1,0 +1,14 @@
+{
+  "date": "2026-03-26",
+  "slug": "2026-03-26-ai-capex-and-robotics-tracker",
+  "title": "AI Capex And Robotics Tracker",
+  "summary": "AI Capex And Robotics Tracker is a dashboard-style micro product generated for 2026-03-26, packaged with its own demo and AI dossier.",
+  "theme": "cobalt-signal",
+  "archetype": "dashboard",
+  "heroImage": null,
+  "demo": {
+    "headline": "AI Capex And Robotics Tracker",
+    "subheadline": "A daily-generated dashboard concept focused on clarity, usefulness, and speed to launch.",
+    "accent": "#274690"
+  }
+}
